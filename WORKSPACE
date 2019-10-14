@@ -1,4 +1,4 @@
-workspace(name = "com_github_aryann_cpp_bigquery")
+workspace(name = "com_github_googleapis_google_cloud_cpp_bigquery")
 
 load("//bazel:cpp_bigquery_deps.bzl", "cpp_bigquery_deps")
 

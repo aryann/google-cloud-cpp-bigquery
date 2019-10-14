@@ -54,9 +54,9 @@ def cpp_bigquery_deps():
             urls = [
                 "https://github.com/googleapis/googleapis/archive/304d00375de19c847a730bfd7f077e523a1abba9.tar.gz",
             ],
-            strip_prefix = "googleapis-304d00375de19c847a730bfd7f077e523a1abba9",
-            sha256 = "83979885c1e5165ebef8a4abe948beb998b7c7e74654cae82cc4d8d02516c732",
-            build_file = "@com_github_aryann_cpp_bigquery//bazel:googleapis.BUILD",
+            strip_prefix = "googleapis-9c9f778aedde02f9826d2ae5d0f9c96409ba0f25",
+            sha256 = "13af135d8cc9b81b47d6fbfc258fe790a151956d06e01fd16671aa49fe536ab1",
+            build_file = "@com_github_googleapis_google_cloud_cpp_bigquery//bazel:googleapis.BUILD",
         )
 
     # Load gRPC and its dependencies, using a similar pattern to this function.
