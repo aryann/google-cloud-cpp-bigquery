@@ -19,6 +19,8 @@
 #include "google/cloud/bigquery/connection_options.h"
 #include "google/cloud/bigquery/version.h"
 
+namespace google {
+namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
 namespace internal {
@@ -46,3 +48,5 @@ grpc::ChannelArguments ConnectionOptions::CreateChannelArguments() const {
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
+}  // namespace cloud
+}  // namespace google

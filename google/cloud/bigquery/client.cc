@@ -20,6 +20,8 @@
 #include "google/cloud/bigquery/internal/connection_impl.h"
 #include "google/cloud/bigquery/version.h"
 
+namespace google {
+namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
 using ::google::cloud::StatusOr;
@@ -37,3 +39,5 @@ std::shared_ptr<Connection> MakeConnection(ConnectionOptions const& options) {
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
+}  // namespace cloud
+}  // namespace google

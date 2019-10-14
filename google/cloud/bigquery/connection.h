@@ -18,6 +18,8 @@
 #include "google/cloud/bigquery/version.h"
 #include "google/cloud/status_or.h"
 
+namespace google {
+namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
 class Connection {
@@ -30,5 +32,7 @@ class Connection {
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
+}  // namespace cloud
+}  // namespace google
 
 #endif  // BIGQUERY_CONNECTION_H_

@@ -25,6 +25,8 @@
   GOOGLE_CLOUD_CPP_VEVAL(BIGQUERY_CLIENT_VERSION_MAJOR, \
                          BIGQUERY_CLIENT_VERSION_MINOR)
 
+namespace google {
+namespace cloud {
 namespace bigquery {
 
 // The inlined, versioned namespace for the client APIs.
@@ -51,5 +53,7 @@ std::string VersionString();
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
+}  // namespace cloud
+}  // namespace google
 
 #endif  // BIGQUERY_VERSION_H_

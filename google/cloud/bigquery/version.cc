@@ -14,6 +14,8 @@
 
 #include "google/cloud/bigquery/version.h"
 
+namespace google {
+namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
 std::string VersionString() {
@@ -28,3 +30,5 @@ std::string VersionString() {
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
+}  // namespace cloud
+}  // namespace google

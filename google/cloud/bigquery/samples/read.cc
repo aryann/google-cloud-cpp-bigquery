@@ -15,8 +15,9 @@
 #include "google/cloud/bigquery/client.h"
 
 int main(int argc, char* argv[]) {
-  bigquery::ConnectionOptions options;
-  bigquery::Client client(bigquery::MakeConnection(options));
+  google::cloud::bigquery::ConnectionOptions options;
+  google::cloud::bigquery::Client client(
+      google::cloud::bigquery::MakeConnection(options));
   google::cloud::StatusOr<std::string> res = client.CreateSession(
       "aryann-bigquery", "bigquery-public-data:samples.shakespeare");
 
