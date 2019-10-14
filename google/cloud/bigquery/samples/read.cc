@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "bigquery/client.h"
+#include "google/cloud/bigquery/client.h"
 
 int main(int argc, char* argv[]) {
   bigquery::ConnectionOptions options;

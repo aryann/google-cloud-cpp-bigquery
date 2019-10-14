@@ -12,23 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BIGQUERY_CONNECTION_H_
-#define BIGQUERY_CONNECTION_H_
-
-#include "bigquery/version.h"
-#include "google/cloud/status_or.h"
+#include "google/cloud/bigquery/version.h"
 
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
-class Connection {
- public:
-  virtual ~Connection() = default;
-
-  virtual google::cloud::StatusOr<std::string> CreateSession(
-      std::string parent_project_id, std::string table) = 0;
-};
+std::string VersionString() {
+  static std::string const kVersion = []() {
+    std::ostringstream os;
+    os << "v" << VersionMajor() << "." << VersionMinor() << "."
+       << VersionPatch();
+    return os.str();
+  }();
+  return kVersion;
+}
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
-
-#endif  // BIGQUERY_CONNECTION_H_

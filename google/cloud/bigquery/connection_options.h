@@ -19,7 +19,7 @@
 #include <memory>
 #include <string>
 
-#include "bigquery/version.h"
+#include "google/cloud/bigquery/version.h"
 
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {

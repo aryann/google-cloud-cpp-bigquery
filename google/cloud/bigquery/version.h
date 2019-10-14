@@ -18,7 +18,7 @@
 #include <sstream>
 #include <string>
 
-#include "bigquery/version_info.h"
+#include "google/cloud/bigquery/version_info.h"
 #include "google/cloud/version.h"
 
 #define BIGQUERY_CLIENT_NS                              \

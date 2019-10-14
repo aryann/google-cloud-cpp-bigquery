@@ -18,10 +18,10 @@
 #include <google/cloud/bigquery/storage/v1beta1/storage.pb.h>
 #include <memory>
 
-#include "bigquery/connection.h"
-#include "bigquery/connection_options.h"
-#include "bigquery/internal/stream_reader.h"
-#include "bigquery/version.h"
+#include "google/cloud/bigquery/connection.h"
+#include "google/cloud/bigquery/connection_options.h"
+#include "google/cloud/bigquery/internal/stream_reader.h"
+#include "google/cloud/bigquery/version.h"
 #include "google/cloud/status_or.h"
 
 namespace bigquery {

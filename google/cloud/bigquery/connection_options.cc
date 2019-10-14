@@ -16,15 +16,15 @@
 #include <memory>
 #include <string>
 
-#include "bigquery/connection_options.h"
-#include "bigquery/version.h"
+#include "google/cloud/bigquery/connection_options.h"
+#include "google/cloud/bigquery/version.h"
 
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
 namespace internal {
 std::string BaseUserAgentPrefix() {
   // TODO(aryann): Add more info here.
-  return "aryann-cpp-bigquery/" + VersionString();
+  return "aryann-cpp-google/cloud/bigquery/" + VersionString();
 }
 }  // namespace internal
 

@@ -14,11 +14,11 @@
 
 #include <memory>
 
-#include "bigquery/client.h"
-#include "bigquery/connection.h"
-#include "bigquery/connection_options.h"
-#include "bigquery/internal/connection_impl.h"
-#include "bigquery/version.h"
+#include "google/cloud/bigquery/client.h"
+#include "google/cloud/bigquery/connection.h"
+#include "google/cloud/bigquery/connection_options.h"
+#include "google/cloud/bigquery/internal/connection_impl.h"
+#include "google/cloud/bigquery/version.h"
 
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
