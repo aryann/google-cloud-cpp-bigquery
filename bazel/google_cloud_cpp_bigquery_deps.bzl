@@ -14,8 +14,8 @@
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
-def cpp_bigquery_deps():
-    """Loads dependencies need to compile the cpp-bigquery library.
+def google_cloud_cpp_bigquery_deps():
+    """Loads dependencies need to compile the google-cloud-cpp-bigquery library.
 
     Application developers can call this function from their WORKSPACE
     file to obtain all the necessary dependencies for
