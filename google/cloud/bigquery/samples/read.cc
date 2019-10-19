@@ -47,21 +47,21 @@ void ParallelRead() {
   // From coordinating job:
   ConnectionOptions options;
   Client client(MakeConnection(options));
-  StatusOr<std::vector<ReadStream<Row>>> read_session = client.ParallelRead(
+  StatusOr<std::vector<ReadStream>> read_session = client.ParallelRead(
       "my-parent-project", "bigquery-public-data:samples.shakespeare",
       /* columns = */ {"c1", "c2", "c3"});
   if (!read_session.ok()) {
     // Handle error;
   }
 
-  for (ReadStream<Row> const& stream : read_session.value()) {
+  for (ReadStream const& stream : read_session.value()) {
     std::string bits = SerializeReadStream(stream).value();
     // Send bits to worker job.
   }
 
   // From a worker job:
   std::string bits;  // Sent by coordinating job.
-  ReadStream<Row> stream = DeserializeReadStream<Row>(bits).value();
+  ReadStream stream = DeserializeReadStream(bits).value();
   ReadResult<Row> result = client.Read(stream);
   for (StatusOr<Row> const& row : result.Rows()) {
     if (row.ok()) {

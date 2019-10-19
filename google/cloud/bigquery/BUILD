@@ -20,6 +20,10 @@ cc_library(
       "client.h",
       "connection.h",
       "connection_options.h",
+      "read_result.h",
+      "read_stream.h",
+      "row.h",
+      "row_set.h",
       "version.h",
       "version_info.h",
     ],
@@ -31,6 +35,7 @@ cc_library(
       "internal/bigquerystorage_stub.h",
       "internal/connection_impl.cc",
       "internal/connection_impl.h",
+      "read_stream.cc",
       "version.cc",
     ],
     deps = [

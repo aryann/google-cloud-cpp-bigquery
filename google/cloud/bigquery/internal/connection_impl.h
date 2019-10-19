@@ -15,12 +15,11 @@
 #ifndef BIGQUERY_INTERNAL_CONNECTION_H_
 #define BIGQUERY_INTERNAL_CONNECTION_H_
 
-#include <memory>
-
 #include "google/cloud/bigquery/connection.h"
 #include "google/cloud/bigquery/internal/bigquerystorage_stub.h"
 #include "google/cloud/bigquery/version.h"
 #include "google/cloud/status_or.h"
+#include <memory>
 
 namespace google {
 namespace cloud {

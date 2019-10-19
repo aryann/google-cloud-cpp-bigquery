@@ -12,30 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BIGQUERY_CONNECTION_H_
-#define BIGQUERY_CONNECTION_H_
-
 #include "google/cloud/bigquery/read_stream.h"
-#include "google/cloud/bigquery/row.h"
 #include "google/cloud/bigquery/version.h"
 #include "google/cloud/status_or.h"
-#include <vector>
 
 namespace google {
 namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
-class Connection {
- public:
-  virtual ~Connection() = default;
+StatusOr<std::string> SerializeReadStream(ReadStream const& /*read_stream*/) {
+  return {};
+}
 
-  virtual google::cloud::StatusOr<std::string> CreateSession(
-      std::string parent_project_id, std::string table) = 0;
-};
+StatusOr<ReadStream> DeserializeReadStream(
+    std::string /*serialized_read_stream*/) {
+  return {};
+}
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery
 }  // namespace cloud
 }  // namespace google
-
-#endif  // BIGQUERY_CONNECTION_H_

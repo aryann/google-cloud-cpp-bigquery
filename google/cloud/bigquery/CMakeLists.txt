@@ -95,6 +95,11 @@ add_library(bigquery_client
             internal/connection_impl.cc
             internal/connection_impl.h
             internal/stream_reader.h
+            read_result.h
+            read_stream.h
+            read_stream.cc
+            row.h
+            row_set.h
             version.cc
             version.h
             version_info.h)

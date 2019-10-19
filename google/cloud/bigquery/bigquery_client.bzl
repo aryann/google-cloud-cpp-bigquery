@@ -23,6 +23,10 @@ bigquery_client_hdrs = [
     "internal/bigquerystorage_stub.h",
     "internal/connection_impl.h",
     "internal/stream_reader.h",
+    "read_result.h",
+    "read_stream.h",
+    "row.h",
+    "row_set.h",
     "version.h",
     "version_info.h",
 ]
@@ -32,5 +36,6 @@ bigquery_client_srcs = [
     "connection_options.cc",
     "internal/bigquerystorage_stub.cc",
     "internal/connection_impl.cc",
+    "read_stream.cc",
     "version.cc",
 ]

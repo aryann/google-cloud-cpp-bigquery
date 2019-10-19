@@ -13,16 +13,13 @@
 // limitations under the License.
 
 #include "google/cloud/bigquery/internal/connection_impl.h"
-
-#include <google/cloud/bigquery/storage/v1beta1/storage.pb.h>
-
-#include <memory>
-#include <sstream>
-#include <string>
-
 #include "google/cloud/bigquery/internal/bigquerystorage_stub.h"
 #include "google/cloud/bigquery/version.h"
 #include "google/cloud/status_or.h"
+#include <google/cloud/bigquery/storage/v1beta1/storage.pb.h>
+#include <memory>
+#include <sstream>
+#include <string>
 
 namespace google {
 namespace cloud {

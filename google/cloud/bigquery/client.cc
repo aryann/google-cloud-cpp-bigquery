@@ -36,11 +36,9 @@ ReadResult<Row> Client::Read(std::string /*parent_project_id*/,
   return {};
 }
 
-ReadResult<Row> Client::Read(ReadStream<Row> const& /*read_stream*/) {
-  return {};
-}
+ReadResult<Row> Client::Read(ReadStream const& /*read_stream*/) { return {}; }
 
-StatusOr<std::vector<ReadStream<Row>>> Client::ParallelRead(
+StatusOr<std::vector<ReadStream>> Client::ParallelRead(
     std::string /*parent_project_id*/, std::string /*table*/,
     std::vector<std::string> /*columns*/) {
   return {};

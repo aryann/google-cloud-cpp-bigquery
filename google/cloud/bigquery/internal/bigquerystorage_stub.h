@@ -15,15 +15,13 @@
 #ifndef BIGQUERY_INTERNAL_BIGQUERY_READ_STUB_H_
 #define BIGQUERY_INTERNAL_BIGQUERY_READ_STUB_H_
 
-#include <google/cloud/bigquery/storage/v1beta1/storage.pb.h>
-
-#include <memory>
-
 #include "google/cloud/bigquery/connection.h"
 #include "google/cloud/bigquery/connection_options.h"
 #include "google/cloud/bigquery/internal/stream_reader.h"
 #include "google/cloud/bigquery/version.h"
 #include "google/cloud/status_or.h"
+#include <google/cloud/bigquery/storage/v1beta1/storage.pb.h>
+#include <memory>
 
 namespace google {
 namespace cloud {
