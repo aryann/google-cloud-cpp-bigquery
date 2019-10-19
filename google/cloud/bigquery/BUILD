@@ -14,6 +14,7 @@
 
 package(default_visibility = ["//visibility:public"])
 
+# TODO(#17): Use CMake-generated lists of files for this rule.
 cc_library(
     name = "bigquery_client",
     hdrs = [
@@ -43,5 +44,32 @@ cc_library(
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
 	"@com_google_googleapis//:bigquery_protos",
     ],
-
 )
+
+# TODO(#17): Use CMake-generated lists of files for this rule.
+cc_library(
+  name = "bigquery_client_mocks",
+  srcs = [],
+  hdrs = [
+      "testing/mock_bigquerystorage_stub.h",
+  ],
+  deps = [
+      ":bigquery_client",
+      "@com_github_googleapis_google_cloud_cpp//google/cloud:google_cloud_cpp_common",
+      "@com_github_googleapis_google_cloud_cpp//google/cloud/testing_util:google_cloud_cpp_testing",
+      "@com_google_googletest//:gtest",
+  ],
+)
+
+load(":bigquery_client_unit_tests.bzl", "bigquery_client_unit_tests")
+
+[cc_test(
+    name = "bigquery_client_" + test.replace("/", "_").replace(".cc", ""),
+    srcs = [test],
+    deps = [
+        ":bigquery_client",
+	":bigquery_client_mocks",
+        "@com_github_googleapis_google_cloud_cpp//google/cloud:google_cloud_cpp_common",
+        "@com_github_googleapis_google_cloud_cpp//google/cloud/testing_util:google_cloud_cpp_testing",
+        "@com_google_googletest//:gtest",
+    ]) for test in bigquery_client_unit_tests]
