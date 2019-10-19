@@ -22,7 +22,35 @@ namespace google {
 namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
-class ReadStream {};
+class ReadStream;
+
+namespace internal {
+ReadStream MakeReadStream(std::string stream_name);
+}  // namespace internal
+
+class ReadStream {
+ public:
+  ReadStream(ReadStream const&) = default;
+  ReadStream(ReadStream&&) = default;
+  ReadStream& operator=(ReadStream const&) = default;
+  ReadStream& operator=(ReadStream&&) = default;
+
+  std::string const& stream_name() const { return stream_name_; }
+
+  friend bool operator==(ReadStream const& lhs, ReadStream const& rhs) {
+    return lhs.stream_name_ == rhs.stream_name_;
+  }
+  friend bool operator!=(ReadStream const& lhs, ReadStream const& rhs) {
+    return !(lhs == rhs);
+  }
+
+ private:
+  friend ReadStream internal::MakeReadStream(std::string stream_name);
+  explicit ReadStream(std::string stream_name)
+      : stream_name_(std::move(stream_name)) {}
+
+  const std::string stream_name_;
+};
 
 // Serializes an instance of `ReadStream` for transmission to another process.
 StatusOr<std::string> SerializeReadStream(ReadStream const& /*read_stream*/);

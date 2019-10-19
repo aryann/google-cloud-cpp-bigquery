@@ -56,8 +56,25 @@ std::istream& operator>>(std::istream& is, DelimitedBy<delimiter>& output) {
 ConnectionImpl::ConnectionImpl(std::shared_ptr<BigQueryStorageStub> read_stub)
     : read_stub_(read_stub) {}
 
-StatusOr<std::string> ConnectionImpl::CreateSession(
-    std::string parent_project_id, std::string table) {
+StatusOr<std::vector<ReadStream>> ConnectionImpl::ParallelRead(
+    std::string parent_project_id, std::string table,
+    std::vector<std::string> columns) {
+  auto response = NewReadSession(parent_project_id, table, columns);
+  if (!response.ok()) {
+    return response.status();
+  }
+
+  std::vector<ReadStream> result;
+  for (bigquerystorage_proto::Stream const& stream :
+       response.value().streams()) {
+    result.push_back(std::move(MakeReadStream(stream.name())));
+  }
+  return result;
+}
+
+StatusOr<bigquerystorage_proto::ReadSession> ConnectionImpl::NewReadSession(
+    std::string parent_project_id, std::string table,
+    std::vector<std::string> columns) {
   auto parts = StrSplit<':'>(table);
   if (parts.size() != 2) {
     return Status(
@@ -79,11 +96,11 @@ StatusOr<std::string> ConnectionImpl::CreateSession(
   request.mutable_table_reference()->set_project_id(project_id);
   request.mutable_table_reference()->set_dataset_id(dataset_id);
   request.mutable_table_reference()->set_table_id(table_id);
-  auto response = read_stub_->CreateReadSession(request);
-  if (!response.ok()) {
-    return response.status();
+  for (std::string const& column : columns) {
+    request.mutable_read_options()->add_selected_fields(column);
   }
-  return response.value().name();
+
+  return read_stub_->CreateReadSession(request);
 }
 
 std::shared_ptr<ConnectionImpl> MakeConnection(

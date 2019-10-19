@@ -25,11 +25,6 @@ namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
 using ::google::cloud::StatusOr;
 
-StatusOr<std::string> Client::CreateSession(std::string parent_project_id,
-                                            std::string table) {
-  return conn_->CreateSession(parent_project_id, table);
-}
-
 ReadResult<Row> Client::Read(std::string /*parent_project_id*/,
                              std::string /*table*/,
                              std::vector<std::string> /*columns*/) {
@@ -39,9 +34,10 @@ ReadResult<Row> Client::Read(std::string /*parent_project_id*/,
 ReadResult<Row> Client::Read(ReadStream const& /*read_stream*/) { return {}; }
 
 StatusOr<std::vector<ReadStream>> Client::ParallelRead(
-    std::string /*parent_project_id*/, std::string /*table*/,
-    std::vector<std::string> /*columns*/) {
-  return {};
+    std::string parent_project_id, std::string table,
+    std::vector<std::string> columns) {
+  return conn_->ParallelRead(std::move(parent_project_id), std::move(table),
+                             std::move(columns));
 }
 
 std::shared_ptr<Connection> MakeConnection(ConnectionOptions const& options) {

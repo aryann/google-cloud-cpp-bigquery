@@ -70,6 +70,22 @@ void ParallelRead() {
   }
 }
 
+void CreateSession(std::string const& project_id) {
+  google::cloud::bigquery::ConnectionOptions options;
+  google::cloud::bigquery::Client client(
+      google::cloud::bigquery::MakeConnection(options));
+  google::cloud::StatusOr<std::vector<ReadStream>> res = client.ParallelRead(
+      project_id, "bigquery-public-data:samples.shakespeare");
+
+  if (res.ok()) {
+    for (ReadStream const& stream : res.value()) {
+      std::cout << "Read stream: " << stream.stream_name() << "\n";
+    }
+  } else {
+    std::cerr << "Session creation failed with error: " << res.status() << "\n";
+  }
+}
+
 }  // namespace
 
 int main(int argc, char* argv[]) {
@@ -81,25 +97,12 @@ int main(int argc, char* argv[]) {
   std::string cmd = argv[1];
   std::string project_id = argv[2];
 
-  google::cloud::bigquery::ConnectionOptions options;
-  google::cloud::bigquery::Client client(
-      google::cloud::bigquery::MakeConnection(options));
-  google::cloud::StatusOr<std::string> res = client.CreateSession(
-      project_id, "bigquery-public-data:samples.shakespeare");
-
-  if (res.ok()) {
-    std::cout << "Session name: " << res.value() << "\n";
-  } else {
-    std::cerr << "Session creation failed with error: " << res.status() << "\n";
-    return EXIT_FAILURE;
-  }
-
   if (cmd == "SimpleRead") {
     SimpleRead();
   } else if (cmd == "ParallelRead") {
     ParallelRead();
-  } else if (cmd == "None") {
-    std::cout << "Doing nothing really fast\n";
+  } else if (cmd == "CreateSession") {
+    CreateSession(project_id);
   } else {
     std::cerr << "Unknown command: " << cmd << "\n";
     return EXIT_FAILURE;

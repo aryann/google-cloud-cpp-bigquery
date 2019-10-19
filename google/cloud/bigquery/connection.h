@@ -29,8 +29,9 @@ class Connection {
  public:
   virtual ~Connection() = default;
 
-  virtual google::cloud::StatusOr<std::string> CreateSession(
-      std::string parent_project_id, std::string table) = 0;
+  virtual StatusOr<std::vector<ReadStream>> ParallelRead(
+      std::string parent_project_id, std::string table,
+      std::vector<std::string> columns = {}) = 0;
 };
 
 }  // namespace BIGQUERY_CLIENT_NS

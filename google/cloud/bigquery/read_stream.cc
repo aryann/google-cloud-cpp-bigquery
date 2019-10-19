@@ -20,6 +20,12 @@ namespace google {
 namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
+namespace internal {
+ReadStream MakeReadStream(std::string stream_name) {
+  return ReadStream(std::move(stream_name));
+}
+}  // namespace internal
+
 StatusOr<std::string> SerializeReadStream(ReadStream const& /*read_stream*/) {
   return {};
 }
