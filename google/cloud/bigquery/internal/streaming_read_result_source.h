@@ -40,7 +40,7 @@ class StreamingReadResultSource : public ReadResultSource {
         fraction_consumed_(0) {}
 
   StatusOr<optional<Row>> NextRow() override;
-  int CurrentOffset() override { return offset_; }
+  std::size_t CurrentOffset() override { return offset_; }
   double FractionConsumed() override { return fraction_consumed_; }
 
  private:

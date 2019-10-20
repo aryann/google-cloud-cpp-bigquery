@@ -49,11 +49,11 @@ class ReadStream {
   explicit ReadStream(std::string stream_name)
       : stream_name_(std::move(stream_name)) {}
 
-  const std::string stream_name_;
+  std::string stream_name_;
 };
 
 // Serializes an instance of `ReadStream` for transmission to another process.
-StatusOr<std::string> SerializeReadStream(ReadStream const& /*read_stream*/);
+std::string SerializeReadStream(ReadStream const& /*read_stream*/);
 
 // Deserializes the provided string to a `ReadStream`, if able.
 StatusOr<ReadStream> DeserializeReadStream(

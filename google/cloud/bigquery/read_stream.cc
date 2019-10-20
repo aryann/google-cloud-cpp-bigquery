@@ -26,7 +26,7 @@ ReadStream MakeReadStream(std::string stream_name) {
 }
 }  // namespace internal
 
-StatusOr<std::string> SerializeReadStream(ReadStream const& /*read_stream*/) {
+std::string SerializeReadStream(ReadStream const& /*read_stream*/) {
   return {};
 }
 

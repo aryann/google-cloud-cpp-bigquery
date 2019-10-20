@@ -30,11 +30,11 @@ class Connection {
  public:
   virtual ~Connection() = default;
 
-  virtual ReadResult<Row> Read(ReadStream const& read_stream) = 0;
+  virtual ReadResult Read(ReadStream const& read_stream) = 0;
 
   virtual StatusOr<std::vector<ReadStream>> ParallelRead(
-      std::string parent_project_id, std::string table,
-      std::vector<std::string> columns = {}) = 0;
+      std::string const& parent_project_id, std::string const& table,
+      std::vector<std::string> const& columns = {}) = 0;
 };
 
 }  // namespace BIGQUERY_CLIENT_NS

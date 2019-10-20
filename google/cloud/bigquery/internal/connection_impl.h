@@ -33,11 +33,11 @@ namespace internal {
 // transport-related logic (e.g., any gRPC-specific code).
 class ConnectionImpl : public Connection {
  public:
-  ReadResult<Row> Read(ReadStream const& read_stream) override;
+  ReadResult Read(ReadStream const& read_stream) override;
 
   StatusOr<std::vector<ReadStream>> ParallelRead(
-      std::string parent_project_id, std::string table,
-      std::vector<std::string> columns = {}) override;
+      std::string const& parent_project_id, std::string const& table,
+      std::vector<std::string> const& columns = {}) override;
 
  private:
   friend std::shared_ptr<ConnectionImpl> MakeConnection(
@@ -46,8 +46,8 @@ class ConnectionImpl : public Connection {
 
   google::cloud::StatusOr<
       google::cloud::bigquery::storage::v1beta1::ReadSession>
-  NewReadSession(std::string parent_project_id, std::string table,
-                 std::vector<std::string> columns = {});
+  NewReadSession(std::string const& parent_project_id, std::string const& table,
+                 std::vector<std::string> const& columns = {});
 
   std::shared_ptr<BigQueryStorageStub> read_stub_;
 };

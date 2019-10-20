@@ -53,13 +53,14 @@ class Client {
   // `table` must be in the form `PROJECT_ID:DATASET_ID.TABLE_ID`.
   //
   // There are no row ordering guarantees.
-  ReadResult<Row> Read(std::string parent_project_id, std::string table,
-                       std::vector<std::string> columns = {});
+  ReadResult Read(std::string const& parent_project_id,
+                  std::string const& table,
+                  std::vector<std::string> const& columns = {});
 
   // Performs a read using a `ReadStream` returned by
   // `bigquery::Client::ParallelRead()`. See the documentation of
   // `ParallelRead()` for more information.
-  ReadResult<Row> Read(ReadStream const& read_stream);
+  ReadResult Read(ReadStream const& read_stream);
 
   // Creates one or more `ReadStream`s that can be used to read data from a
   // table in parallel.
@@ -72,8 +73,8 @@ class Client {
   //
   // After 24 hours, all `ReadStreams` created will stop working.
   StatusOr<std::vector<ReadStream>> ParallelRead(
-      std::string parent_project_id, std::string table,
-      std::vector<std::string> columns = {});
+      std::string const& parent_project_id, std::string const& table,
+      std::vector<std::string> const& columns = {});
 
  private:
   std::shared_ptr<Connection> conn_;

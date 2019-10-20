@@ -33,9 +33,9 @@ using google::cloud::bigquery::SerializeReadStream;
 void SimpleRead() {
   ConnectionOptions options;
   Client client(MakeConnection(options));
-  ReadResult<Row> result = client.Read(
-      "my-parent-project", "bigquery-public-data:samples.shakespeare",
-      /* columns = */ {"c1", "c2", "c3"});
+  ReadResult result = client.Read("my-parent-project",
+                                  "bigquery-public-data:samples.shakespeare",
+                                  /* columns = */ {"c1", "c2", "c3"});
   for (StatusOr<Row> const& row : result.Rows()) {
     if (row.ok()) {
       // Do something with row.value();
@@ -55,14 +55,14 @@ void ParallelRead() {
   }
 
   for (ReadStream const& stream : read_session.value()) {
-    std::string bits = SerializeReadStream(stream).value();
+    std::string bits = SerializeReadStream(stream);
     // Send bits to worker job.
   }
 
   // From a worker job:
   std::string bits;  // Sent by coordinating job.
   ReadStream stream = DeserializeReadStream(bits).value();
-  ReadResult<Row> result = client.Read(stream);
+  ReadResult result = client.Read(stream);
   for (StatusOr<Row> const& row : result.Rows()) {
     if (row.ok()) {
       // Do something with row.value();
@@ -84,7 +84,7 @@ int CreateSession(std::string const& project_id) {
 
   for (ReadStream const& stream : res.value()) {
     std::cout << "Starting stream: " << stream.stream_name() << "\n";
-    ReadResult<Row> read_result = client.Read(stream);
+    ReadResult read_result = client.Read(stream);
     for (StatusOr<Row> const& row : read_result.Rows()) {
       if (!row.ok()) {
         std::cerr << "Error at row offset " << read_result.CurrentOffset()

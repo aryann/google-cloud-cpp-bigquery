@@ -31,7 +31,7 @@ class ReadResultSource {
  public:
   virtual ~ReadResultSource() = default;
   virtual StatusOr<optional<Row>> NextRow() = 0;
-  virtual int CurrentOffset() = 0;
+  virtual std::size_t CurrentOffset() = 0;
   virtual double FractionConsumed() = 0;
 };
 
@@ -41,7 +41,6 @@ class ReadResultSource {
 //
 // Note that at most one pass can be made over the data returned from a
 // `ReadResult`.
-template <typename RowType>
 class ReadResult {
  public:
   ReadResult() = default;
@@ -50,16 +49,17 @@ class ReadResult {
 
   // Returns a `RowSet` which can be used to iterate through the rows that are
   // presented by this object.
-  RowSet<RowType> Rows() {
-    return RowSet<RowType>([this]() mutable { return source_->NextRow(); });
+  RowSet<Row> Rows() {
+    return RowSet<Row>([this]() mutable { return source_->NextRow(); });
   }
 
   // Returns a zero-based index of the last row returned by the `Rows()`
   // iterator. If no rows have been read yet, returns -1.
   int CurrentOffset() { return source_->CurrentOffset(); }
 
-  // Returns a value between 0 and 1, inclusive, that indicates the progress in
-  // the result set based on the number of rows the server has processed.
+  // Returns a value between 0 and 1, inclusive, that indicates the estimated
+  // progress in the result set based on the number of rows the server has
+  // processed.
   //
   // Note that if this ReadResult was created through
   // `bigquery::Client::ParallelRead()` or if a row filter was provided, then

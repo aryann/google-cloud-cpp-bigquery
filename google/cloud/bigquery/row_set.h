@@ -64,7 +64,6 @@ class RowSet {
 
    private:
     friend RowSet;
-    iterator() = default;
     explicit iterator(std::function<StatusOr<optional<RowType>>()>* source)
         : source_(source) {
       if (source_) {

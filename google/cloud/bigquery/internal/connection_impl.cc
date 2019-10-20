@@ -57,18 +57,18 @@ std::istream& operator>>(std::istream& is, DelimitedBy<delimiter>& output) {
 ConnectionImpl::ConnectionImpl(std::shared_ptr<BigQueryStorageStub> read_stub)
     : read_stub_(read_stub) {}
 
-ReadResult<Row> ConnectionImpl::Read(ReadStream const& read_stream) {
+ReadResult ConnectionImpl::Read(ReadStream const& read_stream) {
   bigquerystorage_proto::ReadRowsRequest request;
   request.mutable_read_position()->mutable_stream()->set_name(
       read_stream.stream_name());
   auto source = std::unique_ptr<StreamingReadResultSource>(
       new StreamingReadResultSource(read_stub_->ReadRows(request)));
-  return ReadResult<Row>(std::move(source));
+  return ReadResult(std::move(source));
 }
 
 StatusOr<std::vector<ReadStream>> ConnectionImpl::ParallelRead(
-    std::string parent_project_id, std::string table,
-    std::vector<std::string> columns) {
+    std::string const& parent_project_id, std::string const& table,
+    std::vector<std::string> const& columns) {
   auto response = NewReadSession(parent_project_id, table, columns);
   if (!response.ok()) {
     return response.status();
@@ -77,14 +77,14 @@ StatusOr<std::vector<ReadStream>> ConnectionImpl::ParallelRead(
   std::vector<ReadStream> result;
   for (bigquerystorage_proto::Stream const& stream :
        response.value().streams()) {
-    result.push_back(std::move(MakeReadStream(stream.name())));
+    result.push_back(MakeReadStream(stream.name()));
   }
   return result;
 }
 
 StatusOr<bigquerystorage_proto::ReadSession> ConnectionImpl::NewReadSession(
-    std::string parent_project_id, std::string table,
-    std::vector<std::string> columns) {
+    std::string const& parent_project_id, std::string const& table,
+    std::vector<std::string> const& columns) {
   auto parts = StrSplit<':'>(table);
   if (parts.size() != 2) {
     return Status(

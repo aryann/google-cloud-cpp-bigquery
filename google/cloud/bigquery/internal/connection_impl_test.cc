@@ -69,8 +69,9 @@ TEST(ConnectionImplTest, ParallelReadRpcFailure) {
   auto mock = std::make_shared<bigquery_testing::MockBigQueryStorageStub>();
   auto conn = MakeConnection(mock);
   EXPECT_CALL(*mock, CreateReadSession(_))
-      .WillOnce(testing::Invoke(
-          [](bigquerystorage_proto::CreateReadSessionRequest const& /*request*/) {
+      .WillOnce(
+          testing::Invoke([](bigquerystorage_proto::
+                                 CreateReadSessionRequest const& /*request*/) {
             return Status(StatusCode::kPermissionDenied, "Permission denied!");
           }));
 
@@ -93,6 +94,8 @@ TEST(ConnectionImplTest, ParallelReadRpcSuccess) {
             EXPECT_THAT(request.table_reference().dataset_id(),
                         Eq("my-dataset"));
             EXPECT_THAT(request.table_reference().table_id(), Eq("my-table"));
+
+            EXPECT_THAT(request.read_options().selected_fields_size(), Eq(2));
             EXPECT_THAT(request.read_options().selected_fields(0), Eq("col-0"));
             EXPECT_THAT(request.read_options().selected_fields(1), Eq("col-1"));
 
