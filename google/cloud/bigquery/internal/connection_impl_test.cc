@@ -70,7 +70,7 @@ TEST(ConnectionImplTest, ParallelReadRpcFailure) {
   auto conn = MakeConnection(mock);
   EXPECT_CALL(*mock, CreateReadSession(_))
       .WillOnce(testing::Invoke(
-          [](bigquerystorage_proto::CreateReadSessionRequest const& request) {
+          [](bigquerystorage_proto::CreateReadSessionRequest const& /*request*/) {
             return Status(StatusCode::kPermissionDenied, "Permission denied!");
           }));
 
