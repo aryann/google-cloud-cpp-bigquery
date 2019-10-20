@@ -26,7 +26,17 @@ inline namespace BIGQUERY_CLIENT_NS {
 
 // TODO(aryann): Add an implementation for a row. We must support schemas that
 // are known at compile-time as well as those that are known at run-time.
-class Row {};
+class Row {
+ public:
+  Row() = default;
+
+  ~Row() = default;
+
+  Row(Row const&) = default;
+  Row& operator=(Row const&) = default;
+  Row(Row&&) = default;
+  Row& operator=(Row&&) = default;
+};
 
 }  // namespace BIGQUERY_CLIENT_NS
 }  // namespace bigquery

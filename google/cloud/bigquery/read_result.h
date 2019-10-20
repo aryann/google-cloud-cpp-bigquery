@@ -15,13 +15,28 @@
 #ifndef GOOGLE_CLOUD_BIGQUERY_READ_RESULT_H_
 #define GOOGLE_CLOUD_BIGQUERY_READ_RESULT_H_
 
+#include "google/cloud/bigquery/row.h"
 #include "google/cloud/bigquery/row_set.h"
 #include "google/cloud/bigquery/version.h"
+#include "google/cloud/optional.h"
+#include "google/cloud/status_or.h"
 
 namespace google {
 namespace cloud {
 namespace bigquery {
 inline namespace BIGQUERY_CLIENT_NS {
+namespace internal {
+
+class ReadResultSource {
+ public:
+  virtual ~ReadResultSource() = default;
+  virtual StatusOr<optional<Row>> NextRow() = 0;
+  virtual int CurrentOffset() = 0;
+  virtual double FractionConsumed() = 0;
+};
+
+}  // namespace internal
+
 // Represents the result of a read operation.
 //
 // Note that at most one pass can be made over the data returned from a
@@ -29,13 +44,19 @@ inline namespace BIGQUERY_CLIENT_NS {
 template <typename RowType>
 class ReadResult {
  public:
+  ReadResult() = default;
+  explicit ReadResult(std::unique_ptr<internal::ReadResultSource> source)
+      : source_(std::move(source)) {}
+
   // Returns a `RowSet` which can be used to iterate through the rows that are
   // presented by this object.
-  RowSet<RowType> Rows() { return {}; }
+  RowSet<RowType> Rows() {
+    return RowSet<RowType>([this]() mutable { return source_->NextRow(); });
+  }
 
   // Returns a zero-based index of the last row returned by the `Rows()`
   // iterator. If no rows have been read yet, returns -1.
-  int CurrentOffset() { return {}; }
+  int CurrentOffset() { return source_->CurrentOffset(); }
 
   // Returns a value between 0 and 1, inclusive, that indicates the progress in
   // the result set based on the number of rows the server has processed.
@@ -55,7 +76,10 @@ class ReadResult {
   //     rows are read because some rows may be excluded. As such, the server
   //     uses an estimate for the number of pre-filtering rows.
   //
-  double FractionConsumed() { return {}; }
+  double FractionConsumed() { return source_->FractionConsumed(); }
+
+ private:
+  std::unique_ptr<internal::ReadResultSource> source_;
 };
 
 }  // namespace BIGQUERY_CLIENT_NS

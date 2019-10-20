@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BIGQUERY_CONNECTION_H_
-#define BIGQUERY_CONNECTION_H_
+#ifndef GOOGLE_CLOUD_BIGQUERY_CONNECTION_H_
+#define GOOGLE_CLOUD_BIGQUERY_CONNECTION_H_
 
+#include "google/cloud/bigquery/read_result.h"
 #include "google/cloud/bigquery/read_stream.h"
 #include "google/cloud/bigquery/row.h"
 #include "google/cloud/bigquery/version.h"
@@ -29,6 +30,8 @@ class Connection {
  public:
   virtual ~Connection() = default;
 
+  virtual ReadResult<Row> Read(ReadStream const& read_stream) = 0;
+
   virtual StatusOr<std::vector<ReadStream>> ParallelRead(
       std::string parent_project_id, std::string table,
       std::vector<std::string> columns = {}) = 0;
@@ -39,4 +42,4 @@ class Connection {
 }  // namespace cloud
 }  // namespace google
 
-#endif  // BIGQUERY_CONNECTION_H_
+#endif  // GOOGLE_CLOUD_BIGQUERY_CONNECTION_H_

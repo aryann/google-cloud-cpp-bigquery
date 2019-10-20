@@ -70,20 +70,34 @@ void ParallelRead() {
   }
 }
 
-void CreateSession(std::string const& project_id) {
+int CreateSession(std::string const& project_id) {
   google::cloud::bigquery::ConnectionOptions options;
   google::cloud::bigquery::Client client(
       google::cloud::bigquery::MakeConnection(options));
   google::cloud::StatusOr<std::vector<ReadStream>> res = client.ParallelRead(
       project_id, "bigquery-public-data:samples.shakespeare");
 
-  if (res.ok()) {
-    for (ReadStream const& stream : res.value()) {
-      std::cout << "Read stream: " << stream.stream_name() << "\n";
-    }
-  } else {
+  if (!res.ok()) {
     std::cerr << "Session creation failed with error: " << res.status() << "\n";
+    return EXIT_FAILURE;
   }
+
+  for (ReadStream const& stream : res.value()) {
+    std::cout << "Starting stream: " << stream.stream_name() << "\n";
+    ReadResult<Row> read_result = client.Read(stream);
+    for (StatusOr<Row> const& row : read_result.Rows()) {
+      if (!row.ok()) {
+        std::cerr << "Error at row offset " << read_result.CurrentOffset()
+                  << ": " << row.status() << "\n";
+        return EXIT_FAILURE;
+      }
+      std::cout << "  Current offset: " << read_result.CurrentOffset()
+                << "; fraction consumed: " << read_result.FractionConsumed()
+                << "\n";
+    }
+    std::cout << "Done with stream: " << stream.stream_name() << "\n\n";
+  }
+  return EXIT_SUCCESS;
 }
 
 }  // namespace
@@ -101,8 +115,8 @@ int main(int argc, char* argv[]) {
     SimpleRead();
   } else if (cmd == "ParallelRead") {
     ParallelRead();
-  } else if (cmd == "CreateSession") {
-    CreateSession(project_id);
+  } else if (cmd == "PrintProgress") {
+    return CreateSession(project_id);
   } else {
     std::cerr << "Unknown command: " << cmd << "\n";
     return EXIT_FAILURE;

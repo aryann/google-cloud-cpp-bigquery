@@ -33,6 +33,8 @@ namespace internal {
 // transport-related logic (e.g., any gRPC-specific code).
 class ConnectionImpl : public Connection {
  public:
+  ReadResult<Row> Read(ReadStream const& read_stream) override;
+
   StatusOr<std::vector<ReadStream>> ParallelRead(
       std::string parent_project_id, std::string table,
       std::vector<std::string> columns = {}) override;

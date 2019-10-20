@@ -31,6 +31,8 @@ cc_library(
     srcs = [
       "client.cc",
       "connection_options.cc",
+      "internal/streaming_read_result_source.cc",
+      "internal/streaming_read_result_source.h",
       "internal/stream_reader.h",
       "internal/bigquerystorage_stub.cc",
       "internal/bigquerystorage_stub.h",

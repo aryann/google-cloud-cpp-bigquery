@@ -15,13 +15,11 @@
 #ifndef GOOGLE_CLOUD_BIGQUERY_ROW_SET_H_
 #define GOOGLE_CLOUD_BIGQUERY_ROW_SET_H_
 
-#include "google/cloud/bigquery/connection.h"
-#include "google/cloud/bigquery/connection_options.h"
-#include "google/cloud/bigquery/read_result.h"
-#include "google/cloud/bigquery/read_stream.h"
 #include "google/cloud/bigquery/row.h"
 #include "google/cloud/bigquery/version.h"
+#include "google/cloud/optional.h"
 #include "google/cloud/status_or.h"
+#include <functional>
 #include <memory>
 
 namespace google {
@@ -43,23 +41,62 @@ class RowSet {
     reference operator*() { return curr_; }
     pointer operator->() { return &curr_; }
 
-    iterator& operator++() { return *this; }
+    iterator& operator++() {
+      Advance();
+      return *this;
+    }
 
-    iterator operator++(int) { return {}; }
+    iterator operator++(int) {
+      auto const old = *this;
+      operator++();
+      return old;
+    }
 
-    friend bool operator==(iterator const&, iterator const&) { return {}; }
+    friend bool operator==(iterator const& lhs, iterator const rhs) {
+      bool const lhs_done = !lhs.source_;
+      bool const rhs_done = !rhs.source_;
+      return lhs_done == rhs_done;
+    }
 
-    friend bool operator!=(iterator const& a, iterator const& b) {
-      return !(a == b);
+    friend bool operator!=(iterator const& lhs, iterator const& rhs) {
+      return !(lhs == rhs);
     }
 
    private:
+    friend RowSet;
+    iterator() = default;
+    explicit iterator(std::function<StatusOr<optional<RowType>>()>* source)
+        : source_(source) {
+      if (source_) {
+        Advance();
+      }
+    }
+
+    void Advance() {
+      auto next = std::move((*source_)());
+      if (!next.ok()) {
+        curr_ = next.status();
+        source_ = nullptr;
+      } else if (!next.value()) {
+        source_ = nullptr;
+      } else {
+        curr_ = *next.value();
+      }
+    }
+
+    std::function<StatusOr<optional<RowType>>()>* source_;
     StatusOr<RowType> curr_;
   };
 
-  iterator begin() { return {}; }
+  explicit RowSet(std::function<StatusOr<optional<RowType>>()> source)
+      : source_(std::move(source)) {}
 
-  iterator end() { return {}; }
+  iterator begin() { return iterator(&source_); }
+
+  iterator end() { return iterator(nullptr); }
+
+ private:
+  std::function<StatusOr<optional<RowType>>()> source_;
 };
 
 }  // namespace BIGQUERY_CLIENT_NS
