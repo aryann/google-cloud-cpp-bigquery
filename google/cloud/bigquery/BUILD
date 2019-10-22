@@ -57,8 +57,8 @@ cc_library(
   ],
   deps = [
       ":bigquery_client",
-      "@com_github_googleapis_google_cloud_cpp//google/cloud:google_cloud_cpp_common",
-      "@com_github_googleapis_google_cloud_cpp//google/cloud/testing_util:google_cloud_cpp_testing",
+      "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
+      "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
       "@com_google_googletest//:gtest",
   ],
 )
@@ -71,7 +71,7 @@ load(":bigquery_client_unit_tests.bzl", "bigquery_client_unit_tests")
     deps = [
         ":bigquery_client",
 	":bigquery_client_mocks",
-        "@com_github_googleapis_google_cloud_cpp//google/cloud:google_cloud_cpp_common",
-        "@com_github_googleapis_google_cloud_cpp//google/cloud/testing_util:google_cloud_cpp_testing",
-        "@com_google_googletest//:gtest",
+        "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
+        "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
+        "@com_google_googletest//:gtest_main",
     ]) for test in bigquery_client_unit_tests]
