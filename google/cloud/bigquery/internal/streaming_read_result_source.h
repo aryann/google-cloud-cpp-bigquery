@@ -49,7 +49,7 @@ class StreamingReadResultSource : public ReadResultSource {
       reader_;
 
   optional<google::cloud::bigquery::storage::v1beta1::ReadRowsResponse> curr_;
-  int offset_in_curr_response_;
+  std::int64_t offset_in_curr_response_;
   std::size_t offset_;
   double fraction_consumed_;
 };

@@ -17,50 +17,50 @@ package(default_visibility = ["//visibility:public"])
 # TODO(#17): Use CMake-generated lists of files for this rule.
 cc_library(
     name = "bigquery_client",
-    hdrs = [
-      "client.h",
-      "connection.h",
-      "connection_options.h",
-      "read_result.h",
-      "read_stream.h",
-      "row.h",
-      "row_set.h",
-      "version.h",
-      "version_info.h",
-    ],
     srcs = [
-      "client.cc",
-      "connection_options.cc",
-      "internal/streaming_read_result_source.cc",
-      "internal/streaming_read_result_source.h",
-      "internal/stream_reader.h",
-      "internal/bigquerystorage_stub.cc",
-      "internal/bigquerystorage_stub.h",
-      "internal/connection_impl.cc",
-      "internal/connection_impl.h",
-      "read_stream.cc",
-      "version.cc",
+        "client.cc",
+        "connection_options.cc",
+        "internal/bigquerystorage_stub.cc",
+        "internal/bigquerystorage_stub.h",
+        "internal/connection_impl.cc",
+        "internal/connection_impl.h",
+        "internal/stream_reader.h",
+        "internal/streaming_read_result_source.cc",
+        "internal/streaming_read_result_source.h",
+        "read_stream.cc",
+        "version.cc",
+    ],
+    hdrs = [
+        "client.h",
+        "connection.h",
+        "connection_options.h",
+        "read_result.h",
+        "read_stream.h",
+        "row.h",
+        "row_set.h",
+        "version.h",
+        "version_info.h",
     ],
     deps = [
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
-	"@com_google_googleapis//:bigquery_protos",
+        "@com_google_googleapis//:bigquery_protos",
     ],
 )
 
 # TODO(#17): Use CMake-generated lists of files for this rule.
 cc_library(
-  name = "bigquery_client_mocks",
-  srcs = [],
-  hdrs = [
-      "testing/mock_bigquerystorage_stub.h",
-  ],
-  deps = [
-      ":bigquery_client",
-      "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
-      "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
-      "@com_google_googletest//:gtest",
-  ],
+    name = "bigquery_client_mocks",
+    srcs = [],
+    hdrs = [
+        "testing/mock_bigquerystorage_stub.h",
+    ],
+    deps = [
+        ":bigquery_client",
+        "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
+        "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
+        "@com_google_googletest//:gtest",
+    ],
 )
 
 load(":bigquery_client_unit_tests.bzl", "bigquery_client_unit_tests")
@@ -70,8 +70,9 @@ load(":bigquery_client_unit_tests.bzl", "bigquery_client_unit_tests")
     srcs = [test],
     deps = [
         ":bigquery_client",
-	":bigquery_client_mocks",
+        ":bigquery_client_mocks",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
         "@com_google_googletest//:gtest_main",
-    ]) for test in bigquery_client_unit_tests]
+    ],
+) for test in bigquery_client_unit_tests]
