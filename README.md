@@ -13,9 +13,11 @@ This library is currently under development and subject to breaking changes.
   - [Libraries](#libraries)
 - [Build](#build)
   - [Bazel](#bazel)
-  - [CMake](#cmake)
     - [Install Dependencies](#install-dependencies)
     - [Build](#build-1)
+  - [CMake](#cmake)
+    - [Install Dependencies](#install-dependencies-1)
+    - [Build](#build-2)
 
 ## Requirements
 
@@ -44,18 +46,25 @@ The Google BigQuery C++ Client can be built with [CMake](https://cmake.org) or
 
 #### Libraries
 
-The libraries also depend on gRPC, libcurl, and the dependencies of those
-libraries. The Google BigQuery C++ library is tested with the following versions
-of these dependencies:
+The libraries also depend on the following libraries and their dependencies. The
+Google BigQuery C++ library is tested with the following versions of these
+dependencies:
 
 | Library | Minimum version |
 | ------- | --------------- |
 | gRPC    | v1.16.x |
-| libcurl | 7.47.0  |
 
 ## Build
 
 ### Bazel
+
+#### Install Dependencies
+
+To build the project using Bazel, first install Bazel by following [the
+instructions](https://docs.bazel.build/versions/master/install.html) for your
+platform.
+
+#### Build
 
 To build all targets using Bazel, run the following command after cloning this
 repo:
