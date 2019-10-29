@@ -48,13 +48,12 @@ cc_library(
     ],
 )
 
-# TODO(#17): Use CMake-generated lists of files for this rule.
+load(":bigquery_client_mocks.bzl", "bigquery_client_mocks_hdrs", "bigquery_client_mocks_srcs")
+
 cc_library(
     name = "bigquery_client_mocks",
-    srcs = [],
-    hdrs = [
-        "testing/mock_bigquerystorage_stub.h",
-    ],
+    srcs = bigquery_client_mocks_srcs,
+    hdrs = bigquery_client_mocks_hdrs,
     deps = [
         ":bigquery_client",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",

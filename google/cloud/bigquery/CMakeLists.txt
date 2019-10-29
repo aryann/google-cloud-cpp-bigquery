@@ -102,7 +102,6 @@ add_library(bigquery_client
             read_stream.cc
             row.h
             row_set.h
-            testing/mock_bigquerystorage_stub.h
             version.cc
             version.h
             version_info.h
@@ -142,6 +141,25 @@ function (bigquery_client_define_tests)
 
     find_package(google_cloud_cpp_testing CONFIG REQUIRED)
 
+    add_library(bigquery_client_mocks INTERFACE)
+    target_sources(
+      bigquery_client_mocks
+      INTERFACE
+      ${CMAKE_CURRENT_SOURCE_DIR}/testing/mock_bigquerystorage_stub.h)
+    target_link_libraries(
+      bigquery_client_mocks
+      INTERFACE googleapis-c++::bigquery_client google_cloud_cpp_testing
+      GTest::gmock_main GTest::gmock GTest::gtest)
+    create_bazel_config(bigquery_client_mocks)
+    target_include_directories(
+        bigquery_client_mocks
+        INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+                  $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+                  $<INSTALL_INTERFACE:include>)
+    target_compile_options(
+        bigquery_client_mocks
+        INTERFACE ${GOOGLE_CLOUD_CPP_SPANNER_EXCEPTIONS_FLAG})
+
     set(bigquery_client_unit_tests
         internal/connection_impl_test.cc
         )
@@ -166,7 +184,8 @@ function (bigquery_client_define_tests)
                        ${target})
         add_executable(${target} ${fname})
         target_link_libraries(${target}
-                              PRIVATE googleapis-c++::bigquery_client
+                              PRIVATE bigquery_client_mocks
+	                              googleapis-c++::bigquery_client
                                       google_cloud_cpp_testing
                                       GTest::gmock_main
                                       GTest::gmock
