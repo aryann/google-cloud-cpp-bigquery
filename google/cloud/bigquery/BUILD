@@ -27,12 +27,12 @@ cc_library(
     ],
 )
 
-load(":bigquery_client_mocks.bzl", "bigquery_client_mocks_hdrs", "bigquery_client_mocks_srcs")
+load(":bigquery_client_testing.bzl", "bigquery_client_testing_hdrs", "bigquery_client_testing_srcs")
 
 cc_library(
-    name = "bigquery_client_mocks",
-    srcs = bigquery_client_mocks_srcs,
-    hdrs = bigquery_client_mocks_hdrs,
+    name = "bigquery_client_testing",
+    srcs = bigquery_client_testing_srcs,
+    hdrs = bigquery_client_testing_hdrs,
     deps = [
         ":bigquery_client",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
@@ -48,7 +48,7 @@ load(":bigquery_client_unit_tests.bzl", "bigquery_client_unit_tests")
     srcs = [test],
     deps = [
         ":bigquery_client",
-        ":bigquery_client_mocks",
+        ":bigquery_client_testing",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
         "@com_google_googletest//:gtest_main",
