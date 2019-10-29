@@ -14,33 +14,12 @@
 
 package(default_visibility = ["//visibility:public"])
 
-# TODO(#17): Use CMake-generated lists of files for this rule.
+load(":bigquery_client.bzl", "bigquery_client_hdrs", "bigquery_client_srcs")
+
 cc_library(
     name = "bigquery_client",
-    srcs = [
-        "client.cc",
-        "connection_options.cc",
-        "internal/bigquerystorage_stub.cc",
-        "internal/bigquerystorage_stub.h",
-        "internal/connection_impl.cc",
-        "internal/connection_impl.h",
-        "internal/stream_reader.h",
-        "internal/streaming_read_result_source.cc",
-        "internal/streaming_read_result_source.h",
-        "read_stream.cc",
-        "version.cc",
-    ],
-    hdrs = [
-        "client.h",
-        "connection.h",
-        "connection_options.h",
-        "read_result.h",
-        "read_stream.h",
-        "row.h",
-        "row_set.h",
-        "version.h",
-        "version_info.h",
-    ],
+    srcs = bigquery_client_srcs,
+    hdrs = bigquery_client_hdrs,
     deps = [
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud:google_cloud_cpp_common",
         "@com_github_googleapis_google_cloud_cpp_common//google/cloud/grpc_utils:google_cloud_cpp_grpc_utils",
