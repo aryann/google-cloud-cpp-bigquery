@@ -17,11 +17,15 @@
 """Automatically generated source lists for bigquery_client - DO NOT EDIT."""
 
 bigquery_client_hdrs = [
+    "admin_client.h",
+    "admin_connection.h",
     "client.h",
     "connection.h",
     "connection_options.h",
-    "internal/connection_impl.h",
+    "internal/bigquery_stub.h",
     "internal/storage_stub.h",
+    "internal/admin_connection_impl.h",
+    "internal/connection_impl.h",
     "internal/stream_reader.h",
     "internal/streaming_read_result_source.h",
     "read_result.h",
@@ -33,10 +37,13 @@ bigquery_client_hdrs = [
 ]
 
 bigquery_client_srcs = [
+    "admin_client.cc",
     "client.cc",
     "connection_options.cc",
-    "internal/connection_impl.cc",
+    "internal/bigquery_stub.cc",
     "internal/storage_stub.cc",
+    "internal/admin_connection_impl.cc",
+    "internal/connection_impl.cc",
     "internal/streaming_read_result_source.cc",
     "read_stream.cc",
     "version.cc",

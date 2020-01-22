@@ -86,13 +86,20 @@ configure_file(version_info.h.in ${CMAKE_CURRENT_SOURCE_DIR}/version_info.h)
 add_library(
     bigquery_client
     ${CMAKE_CURRENT_BINARY_DIR}/internal/build_info.cc
+    admin_client.cc
+    admin_client.h
+    admin_connection.h
     client.cc
     client.h
     connection.h
     connection_options.cc
     connection_options.h
+    internal/bigquery_stub.cc
+    internal/bigquery_stub.h
     internal/storage_stub.cc
     internal/storage_stub.h
+    internal/admin_connection_impl.cc
+    internal/admin_connection_impl.h
     internal/connection_impl.cc
     internal/connection_impl.h
     internal/stream_reader.h
