@@ -26,8 +26,7 @@ namespace google {
 namespace cloud {
 namespace bigquery_testing {
 inline namespace BIGQUERY_CLIENT_NS {
-class MockStorageStub
-    : public google::cloud::bigquery::internal::StorageStub {
+class MockStorageStub : public google::cloud::bigquery::internal::StorageStub {
  public:
   MOCK_METHOD1(CreateReadSession,
                google::cloud::StatusOr<
